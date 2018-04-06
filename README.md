@@ -64,6 +64,7 @@ $ mvn test
 ... [INFO] Scanning for projects...
 ```
 Current program crawl link https://en.wikipedia.org/wiki/Java_Transaction_API, you can change it at com.badre.crawl.service.impl.LinkServiceImpl..INITIAL_URL
+
 You can change how many levels you want to crawl by setting com.badre.crawl.service.impl.LinkServiceImpl.MAX_LEVEL
 
 ## License
