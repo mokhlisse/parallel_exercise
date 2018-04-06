@@ -39,6 +39,8 @@ public class UtilsTest {
 		String parent = "https://en.wikipedia.org/wiki/Java_Transaction_API";
 		String link = "/wiki/Eastern_states_of_Australia";
 
-		System.out.println(Utils.toAbsolute(link, parent));
+		assertTrue(Utils.toAbsolute(link, parent).equals("https://en.wikipedia.org/wiki/Eastern_states_of_Australia"));
+		
+		assertTrue(Utils.toAbsolute(parent, parent).equals(parent));
 	}
 }

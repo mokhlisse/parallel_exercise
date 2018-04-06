@@ -2,7 +2,7 @@ package com.badre.crawl.service.impl;
 
 import java.io.IOException;
 import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.concurrent.RecursiveAction;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -15,7 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badre.crawl.model.Url;
-import com.badre.crawl.service.UrlService;
+import com.badre.crawl.service.LinkService;
 import com.badre.crawl.utils.Utils;
 
 /**
@@ -23,14 +23,15 @@ import com.badre.crawl.utils.Utils;
  * 
  * @author <a href="mailto:mokhlisse_badre@yahoo.fr">Badre Edine Mokhlisse</a>
  */
-public class CrawlTask implements Callable<Integer> {
+public class LinkTask extends RecursiveAction {
 
-	private static final Logger logger = LogManager.getLogger(CrawlTask.class);
-	private UrlService urlService;
+	private static final long serialVersionUID = 4396653414862146805L;
+	private static final Logger logger = LogManager.getLogger(LinkTask.class);
+	private LinkService urlService;
 	private CloseableHttpClient client;
 	private Url url;
 
-	public CrawlTask(UrlService urlService, CloseableHttpClient client, Url url) {
+	public LinkTask(LinkService urlService, CloseableHttpClient client, Url url) {
 		super();
 		this.urlService = urlService;
 		this.client = client;
@@ -38,7 +39,7 @@ public class CrawlTask implements Callable<Integer> {
 	}
 
 	@Override
-	public Integer call() throws Exception {
+	protected void compute() {
 
 		CloseableHttpResponse response = null;
 		String content = null;
@@ -70,7 +71,6 @@ public class CrawlTask implements Callable<Integer> {
 				for (String item : urls) {
 					urlService.process(new Url(Utils.toAbsolute(item, url.getUrl()), 1 + url.getLevel()));
 				}
-				return urls.size();
 			}
 		} catch (ClientProtocolException e) {
 			logger.error("error downloading url = " + url, e);
@@ -85,8 +85,5 @@ public class CrawlTask implements Callable<Integer> {
 				}
 			}
 		}
-
-		return 0;
 	}
-
 }

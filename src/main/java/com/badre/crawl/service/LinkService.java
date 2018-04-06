@@ -7,7 +7,7 @@ import com.badre.crawl.model.Url;
  * 
  * @author <a href="mailto:mokhlisse_badre@yahoo.fr">Badre Edine Mokhlisse</a>
  */
-public interface UrlService {
+public interface LinkService {
 
 	/**
 	 * start processing first url
@@ -36,5 +36,5 @@ public interface UrlService {
 	/**
 	 * write Urls to report file
 	 */
-	public void urlsToFile();
+	public void printToFile();
 }
